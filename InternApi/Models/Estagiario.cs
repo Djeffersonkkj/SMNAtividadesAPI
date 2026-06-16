@@ -9,16 +9,20 @@ public class Estagiario
 
         Nome = nome;
         DataNascimento = dataNascimento;
-        _senha = senha;
+        Senha = senha;
     }
 
     private static int _estagiariosCadastrados;
 
 
-    public string _senha;
+    public string Senha { get; private set; }
     public int Id { get; }
     public string? Nome { get; }
     public DateOnly DataNascimento { get; }
+
+    public void EditarSenha(string novaSenha)
+        => Senha = novaSenha;
+    
 
 
 }

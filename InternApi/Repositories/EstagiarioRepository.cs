@@ -17,6 +17,9 @@ public class EstagiarioRepository : IEstagiarioRepository
 
     public Estagiario? ObterEstagiarioPorId( int id)
         => _estagiarios.FirstOrDefault(estagiario => estagiario.Id == id);
+
+    public void AdicionarEstagiario(Estagiario estagiario)
+        => _estagiarios.Add(estagiario);
 }
 
 

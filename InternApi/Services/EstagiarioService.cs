@@ -1,5 +1,6 @@
 using AutoMapper;
 using InternApi.DTOs;
+using InternApi.Enums;
 using InternApi.Interfaces;
 using Models;
 
@@ -36,5 +37,24 @@ public class EstagiarioService : IEstagiarioService
         return estagiarioDto;
     }
 
+    public void CriarEstagiario(EstagiarioCriarDto estagiarioCriarDto)
+    {
+        var estagiario = _mapper.Map<Estagiario>(estagiarioCriarDto);
+        _estagiarioRepository.AdicionarEstagiario(estagiario);
+    }
+
+    public ResultadoAtualizarSenhaEnum EditarSenha(EstagiarioEditarSenhaDto dto)
+    {
+        var estagiario = _estagiarioRepository.ObterEstagiarioPorId( dto.Id );
+
+        if (estagiario is null)
+            return ResultadoAtualizarSenhaEnum.UsuarioNaoEncontrado;
+
+        if (estagiario.Senha != dto.SenhaAtual)
+            return ResultadoAtualizarSenhaEnum.SenhaInvalida;
+
+        estagiario.EditarSenha( dto.NovaSenha );
+        return ResultadoAtualizarSenhaEnum.Sucesso;
+    }
 
 }

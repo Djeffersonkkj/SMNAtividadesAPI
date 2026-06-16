@@ -8,6 +8,8 @@ public class EstagiarioProfile : Profile
 {
     public EstagiarioProfile()
     {
-        CreateMap<Estagiario, EstagiarioDto>().ReverseMap();
+        CreateMap<Estagiario, EstagiarioDto>();
+
+        CreateMap<Estagiario, EstagiarioCriarDto>().ReverseMap();
     }
 }

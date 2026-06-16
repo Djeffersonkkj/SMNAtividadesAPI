@@ -1,7 +1,9 @@
 using AutoMapper;
 using InternApi.DTOs;
+using InternApi.Enums;
 using InternApi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Models;
 
 namespace InternApi.Controllers;
@@ -40,13 +42,45 @@ public class InternApiController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType<EstagiarioDto>(StatusCodes.Status200OK)]
-    [ProducesResponseType<string>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(401, Description = "O estagiário não foi encontrado.")]
     public ActionResult<EstagiarioDto> ObterEstagiarioPorId( int id )
     {
         var estagiario = _estagiarioService.ObterEstagiarioPorId( id );
         if ( estagiario == null )
-            return NotFound("Estagiario não encontrado.");
+            return NotFound();
 
         return Ok(estagiario);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(201, Description = "Estagiário cadastrado")]
+    public ActionResult CriarEstagiario(EstagiarioCriarDto estagiarioCriarDto)
+    {
+        _estagiarioService.CriarEstagiario(estagiarioCriarDto);
+
+        return Created();
+    }
+
+    [HttpPatch]
+    [ProducesResponseType(404, Description = "Usuário não encontrado.")]
+    [ProducesResponseType(400, Description = "Senha inválida.")]
+    [ProducesResponseType(204, Description = "Sucesso na atualização.")]
+    public ActionResult EditarSenha(EstagiarioEditarSenhaDto dto)
+    {
+        var resultado = _estagiarioService.EditarSenha(dto);
+
+        return resultado switch
+        {
+            ResultadoAtualizarSenhaEnum.UsuarioNaoEncontrado
+                => NotFound(),
+
+            ResultadoAtualizarSenhaEnum.SenhaInvalida
+                => BadRequest(),
+
+            ResultadoAtualizarSenhaEnum.Sucesso
+                => NoContent(),
+
+            _ => StatusCode(500)
+        };
     }
 }
