@@ -1,3 +1,7 @@
+using InternApi.Interfaces;
+using InternApi.Repositories;
+using InternApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +13,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IEstagiarioService, EstagiarioService>();
+builder.Services.AddSingleton<IEstagiarioRepository, EstagiarioRepository>();
+
+builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
 
 var app = builder.Build();
 
