@@ -17,11 +17,17 @@ public class Estagiario
 
     public string Senha { get; private set; }
     public int Id { get; }
-    public string? Nome { get; }
-    public DateOnly DataNascimento { get; }
+    public string? Nome { get; private set; }
+    public DateOnly DataNascimento { get; private set; }
 
     public void EditarSenha(string novaSenha)
         => Senha = novaSenha;
+
+    public void AtualizarTodosCampos(string nome, DateOnly dataNascimento)
+    {
+        Nome = nome;
+        DataNascimento = dataNascimento;
+    }
     
 
 

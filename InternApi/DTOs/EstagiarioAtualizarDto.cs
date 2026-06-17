@@ -1,6 +1,6 @@
 namespace InternApi.DTOs;
 
-public class EstagiarioAtualizar
+public class EstagiarioAtualizarDto
 {
     public int Id { get; set; }
 

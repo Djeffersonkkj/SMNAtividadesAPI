@@ -85,6 +85,29 @@ public class InternApiController : ControllerBase
         };
     }
 
+    [HttpPut]
+    [ProducesResponseType(404, Description = "Usuário não encontrado.")]
+    [ProducesResponseType(400, Description = "Senha inválida.")]
+    [ProducesResponseType(204, Description = "Sucesso na atualização.")]
+    public ActionResult EditarUsarioCompleto(EstagiarioAtualizarDto dto)
+    {
+        var resultado = _estagiarioService.EditarEstagiarioCompleto(dto);
+
+         return resultado switch
+        {
+            ResultadoEstagiarioEnum.UsuarioNaoEncontrado
+                => NotFound(),
+
+            ResultadoEstagiarioEnum.SenhaInvalida
+                => BadRequest(),
+
+            ResultadoEstagiarioEnum.Sucesso
+                => NoContent(),
+
+            _ => StatusCode(500)
+        };
+    }
+
     [HttpDelete]
     [Route("deletar")]
     [ProducesResponseType(404, Description = "Usuário não encontrado.")]
