@@ -9,4 +9,6 @@ public interface IEstagiarioRepository
     Estagiario? ObterEstagiarioPorId( int id);
 
     void AdicionarEstagiario(Estagiario estagiario);
+
+    void Remover(Estagiario estagiario);
 }

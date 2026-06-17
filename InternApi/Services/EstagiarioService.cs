@@ -43,18 +43,33 @@ public class EstagiarioService : IEstagiarioService
         _estagiarioRepository.AdicionarEstagiario(estagiario);
     }
 
-    public ResultadoAtualizarSenhaEnum EditarSenha(EstagiarioEditarSenhaDto dto)
+    public ResultadoEstagiarioEnum EditarSenha(EstagiarioEditarSenhaDto dto)
     {
         var estagiario = _estagiarioRepository.ObterEstagiarioPorId( dto.Id );
 
         if (estagiario is null)
-            return ResultadoAtualizarSenhaEnum.UsuarioNaoEncontrado;
+            return ResultadoEstagiarioEnum.UsuarioNaoEncontrado;
 
         if (estagiario.Senha != dto.SenhaAtual)
-            return ResultadoAtualizarSenhaEnum.SenhaInvalida;
+            return ResultadoEstagiarioEnum.SenhaInvalida;
 
         estagiario.EditarSenha( dto.NovaSenha );
-        return ResultadoAtualizarSenhaEnum.Sucesso;
+        return ResultadoEstagiarioEnum.Sucesso;
     }
+
+    public ResultadoEstagiarioEnum Deletar(int id, string senha)
+    {
+        var estagiario = _estagiarioRepository.ObterEstagiarioPorId( id );
+
+        if (estagiario is null)
+            return ResultadoEstagiarioEnum.UsuarioNaoEncontrado;
+
+        if (estagiario.Senha != senha)
+            return ResultadoEstagiarioEnum.SenhaInvalida;
+
+        _estagiarioRepository.Remover(estagiario);
+        return ResultadoEstagiarioEnum.Sucesso;
+    }
+
 
 }

@@ -1,6 +1,6 @@
 namespace InternApi.Enums;
 
-public enum ResultadoAtualizarSenhaEnum
+public enum ResultadoEstagiarioEnum
 {
     UsuarioNaoEncontrado,
     SenhaInvalida,

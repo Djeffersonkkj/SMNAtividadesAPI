@@ -62,6 +62,7 @@ public class InternApiController : ControllerBase
     }
 
     [HttpPatch]
+    [Route("alterarsenha")]
     [ProducesResponseType(404, Description = "Usuário não encontrado.")]
     [ProducesResponseType(400, Description = "Senha inválida.")]
     [ProducesResponseType(204, Description = "Sucesso na atualização.")]
@@ -71,13 +72,37 @@ public class InternApiController : ControllerBase
 
         return resultado switch
         {
-            ResultadoAtualizarSenhaEnum.UsuarioNaoEncontrado
+            ResultadoEstagiarioEnum.UsuarioNaoEncontrado
                 => NotFound(),
 
-            ResultadoAtualizarSenhaEnum.SenhaInvalida
+            ResultadoEstagiarioEnum.SenhaInvalida
                 => BadRequest(),
 
-            ResultadoAtualizarSenhaEnum.Sucesso
+            ResultadoEstagiarioEnum.Sucesso
+                => NoContent(),
+
+            _ => StatusCode(500)
+        };
+    }
+
+    [HttpDelete]
+    [Route("deletar")]
+    [ProducesResponseType(404, Description = "Usuário não encontrado.")]
+    [ProducesResponseType(400, Description = "Senha inválida.")]
+    [ProducesResponseType(204, Description = "Estagiario deletado.")]
+    public ActionResult Deletar(int id, string senha)
+    {
+        var resultado = _estagiarioService.Deletar(id, senha);
+
+        return resultado switch
+        {
+            ResultadoEstagiarioEnum.UsuarioNaoEncontrado
+                => NotFound(),
+
+            ResultadoEstagiarioEnum.SenhaInvalida
+                => BadRequest(),
+
+            ResultadoEstagiarioEnum.Sucesso
                 => NoContent(),
 
             _ => StatusCode(500)

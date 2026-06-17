@@ -20,6 +20,9 @@ public class EstagiarioRepository : IEstagiarioRepository
 
     public void AdicionarEstagiario(Estagiario estagiario)
         => _estagiarios.Add(estagiario);
+
+    public void Remover(Estagiario estagiario)
+        => _estagiarios.Remove(estagiario);
 }
 
 

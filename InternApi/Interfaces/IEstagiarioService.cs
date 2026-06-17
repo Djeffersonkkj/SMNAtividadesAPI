@@ -8,5 +8,6 @@ public interface IEstagiarioService
     IEnumerable<EstagiarioDto> ObterEstagiarios();
     EstagiarioDto? ObterEstagiarioPorId( int id);
     void CriarEstagiario(EstagiarioCriarDto estagiarioCriarDto);
-    ResultadoAtualizarSenhaEnum EditarSenha(EstagiarioEditarSenhaDto dto);
+    ResultadoEstagiarioEnum EditarSenha(EstagiarioEditarSenhaDto dto);
+    ResultadoEstagiarioEnum Deletar(int id, string senha);
 }
