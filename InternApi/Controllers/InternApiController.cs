@@ -1,15 +1,15 @@
-using AutoMapper;
+using Asp.Versioning;
 using InternApi.DTOs;
 using InternApi.Enums;
 using InternApi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Models;
+
 
 namespace InternApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class InternApiController : ControllerBase
 {
     public InternApiController(IEstagiarioService estagiarioService)
