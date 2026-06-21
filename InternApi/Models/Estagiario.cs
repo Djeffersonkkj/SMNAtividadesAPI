@@ -29,6 +29,7 @@ public class Estagiario
         DataNascimento = dataNascimento;
     }
     
-
+    public void AtualizarNome(string nome)
+        => Nome = nome;
 
 }

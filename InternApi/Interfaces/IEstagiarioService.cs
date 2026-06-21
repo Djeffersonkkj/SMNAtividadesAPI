@@ -11,4 +11,5 @@ public interface IEstagiarioService
     ResultadoEstagiarioEnum EditarSenha(EstagiarioEditarSenhaDto dto);
     ResultadoEstagiarioEnum Deletar(int id, string senha);
     ResultadoEstagiarioEnum EditarEstagiarioCompleto(EstagiarioAtualizarDto dto);
+    ResultadoEstagiarioEnum EditarNome(EstagiarioEditarNomeDto dto);
 }

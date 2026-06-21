@@ -85,5 +85,16 @@ public class EstagiarioService : IEstagiarioService
         return ResultadoEstagiarioEnum.Sucesso;
     }
 
+    public ResultadoEstagiarioEnum EditarNome(EstagiarioEditarNomeDto dto)
+    {
+        var estagiario = _estagiarioRepository.ObterEstagiarioPorId(dto.Id);
+
+        if (estagiario is null)
+            return ResultadoEstagiarioEnum.UsuarioNaoEncontrado;
+
+        estagiario.AtualizarNome(dto.Nome);
+        return ResultadoEstagiarioEnum.Sucesso;
+    }
+
 
 }
