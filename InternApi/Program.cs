@@ -12,22 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen( options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo(){
-        Version = "v1",
-        Title = "Intern API",
-    });
 
-    options.SwaggerDoc("v2", new OpenApiInfo(){
-        Version = "v2",
-        Title = "Intern API",
-    });
-
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath);
-} );
+builder.Services.AddOpenApi("v1");
+builder.Services.AddOpenApi("v2");
 
 builder.Services.AddScoped<IEstagiarioService, EstagiarioService>();
 builder.Services.AddSingleton<IEstagiarioRepository, EstagiarioRepository>();
@@ -41,7 +28,8 @@ builder.Services
         options.AssumeDefaultVersionWhenUnspecified = true;
         options.ReportApiVersions = true;
     })
-    .AddApiExplorer( options =>
+    .AddMvc()
+    .AddApiExplorer(options =>
     {
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
@@ -49,13 +37,18 @@ builder.Services
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI(options =>
+if (app.Environment.IsDevelopment())
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Intern API v1");
-    options.SwaggerEndpoint("/swagger/v2/swagger.json", "Intern API v2");
-});
+    app.MapOpenApi("/{documentName}.json");
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/v1.json", "Intern API v1");
+        options.SwaggerEndpoint("/v2.json", "Intern API v2");
+    });
+}
+
+// Configure the HTTP request pipeline.
 app.UseAuthorization();
 
 app.MapControllers();
