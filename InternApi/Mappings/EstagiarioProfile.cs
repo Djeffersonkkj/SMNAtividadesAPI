@@ -13,5 +13,6 @@ public class EstagiarioProfile : Profile
         CreateMap<Estagiario, EstagiarioCriarDto>().ReverseMap();
 
         CreateMap<EstagiarioAtualizarDto, Estagiario>();
+        CreateMap<ViaCepDto, EnderecoDto>();
     }
 }

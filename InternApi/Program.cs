@@ -12,12 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpClient();
 
 builder.Services.AddOpenApi("v1");
 builder.Services.AddOpenApi("v2");
 
 builder.Services.AddScoped<IEstagiarioService, EstagiarioService>();
 builder.Services.AddSingleton<IEstagiarioRepository, EstagiarioRepository>();
+builder.Services.AddHttpClient<IEnderecoService, EnderecoService>(client =>
+{
+    client.BaseAddress = new Uri("https://viacep.com.br/ws/");
+});
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 
