@@ -1,5 +1,6 @@
 using AutoMapper;
 using InternApi.DTOs;
+using InternApi.Models;
 using Models;
 
 namespace InternApi.Mappings;
@@ -14,5 +15,6 @@ public class EstagiarioProfile : Profile
 
         CreateMap<EstagiarioAtualizarDto, Estagiario>();
         CreateMap<ViaCepDto, EnderecoDto>();
+        CreateMap<EnderecoDto, Endereco>().ReverseMap();
     }
 }

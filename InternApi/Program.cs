@@ -1,7 +1,9 @@
 using Asp.Versioning;
+using InternApi.Data;
 using InternApi.Interfaces;
 using InternApi.Repositories;
 using InternApi.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
 
@@ -17,8 +19,15 @@ builder.Services.AddHttpClient();
 builder.Services.AddOpenApi("v1");
 builder.Services.AddOpenApi("v2");
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 builder.Services.AddScoped<IEstagiarioService, EstagiarioService>();
 builder.Services.AddSingleton<IEstagiarioRepository, EstagiarioRepository>();
+builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
 builder.Services.AddHttpClient<IEnderecoService, EnderecoService>(client =>
 {
     client.BaseAddress = new Uri("https://viacep.com.br/ws/");
