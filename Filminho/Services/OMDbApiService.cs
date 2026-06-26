@@ -12,9 +12,11 @@ public class OMDbApiService : IOMDbApiService
 
     private IHttpClientFactory _httpClientFactory;
 
-    public async Task<FilmeDto> ObterFilmePorNome(string nome)
+    public async Task<FilmeDto> ObterFilmePorNomeAsync(string nome)
     {
-        FilmeDto filme = await _httpClientFactory.CreateClient().GetAsync()
+        var client = _httpClientFactory.CreateClient("OMDb");
+        FilmeDto filme = await client.GetFromJsonAsync<FilmeDto>($"?t={nome}&apikey=f77bb66e&");
+        return filme;
     }
 
     
