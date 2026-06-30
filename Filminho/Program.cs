@@ -1,5 +1,9 @@
+using Filminho.Data;
+using Filminho.Repositories;
+using Filminho.Repositories.Interfaces;
 using Filminho.Services;
 using Filminho.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +17,11 @@ builder.Services.AddHttpClient("OMDb", client =>
     client.BaseAddress = new Uri("http://www.omdbapi.com/");
 });
 
-builder.Services.AddScoped<IOMDbApiService, OMDbApiService>();
+builder.Services.AddScoped<IFilmeService, FilmeService>();
+builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -27,3 +35,7 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.Run();
+
+internal interface IEnderecoService
+{
+}
